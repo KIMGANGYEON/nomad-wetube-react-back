@@ -12,6 +12,7 @@ const logger = morgan("dev");
 app.use(logger);
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
