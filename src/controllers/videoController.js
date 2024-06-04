@@ -2,7 +2,7 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({});
+    const videos = await Video.find({}).sort({ createdAt: "desc" });
     return res.send({ title: "Home", videos });
   } catch (error) {
     console.error(error);
@@ -65,4 +65,17 @@ export const deleteVideo = async (req, res) => {
   const { id } = req.params;
   await Video.findByIdAndDelete(id);
   return res.send({ title: "delete" });
+};
+
+export const search = async (req, res) => {
+  console.log(req.query);
+  const { searchTitle } = req.query;
+  let videos = [];
+  if (searchTitle) {
+    videos = await Video.find({
+      title: searchTitle,
+    });
+    return res.send({ title: "search", videos });
+  }
+  return res.send({ title: "search", videos });
 };
